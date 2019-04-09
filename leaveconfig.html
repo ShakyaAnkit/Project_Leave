@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Leave Configuration</title>
+    <link rel="stylesheet" href="leave.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
+    
+    </head>
+<body>
+    <div class="total">
+    <div class="sidenav">
+        <div class="top-panel">
+            <div class="heading">
+                <h4>FOLKS</h4>
+            </div>
+            <div class="icon-1"><i class="far fa-calendar-check"></i></div>
+        </div>
+        <div class="bottom-panel">
+            <div class="icon-2"><i class="fas fa-bell"></i></div>
+            <div class="icon-2"><i class="fas fa-globe"></i></div>
+            <div class="icon-2"><i class="fas fa-cog"></i></div>
+            <div class="icon-2"><i class="fas fa-user-circle"></i></div>
+            </div>
+            </div>
+    <div class="main">
+            <h1>Leave Configuration</h1>
+        <div class="basic-config" id="basicConfig">
+            <h2>Basic Configuration</h2>
+            <button type="submit" class="save-button">Save</button>
+            <button type="submit" class="Edit" rel="textfield">Edit</button>
+            <button type="submit" class="Cancel" id="basic-config-cancel">Cancel</button>
+            
+        </div>
+        <div class="text-field" id="textfield" >
+            <div class="inputs">
+              <select id='LeaveYearDuration'>
+                <option></option>
+              </select>
+            <label>Leave Year Duration</label>
+            <i class="material-icons">
+                    arrow_drop_down</i>
+                    
+            </div>
+            <div class="inputs" >
+              <select id='Notify-CoWorker'>
+            </select>
+            <label>Notify Co-workers (Multiselect Dropdown)</label>
+            <i class="material-icons">
+                    arrow_drop_down
+                    </i>
+            
+            </div>
+        </div>
+        <div class="text-field">
+            <div class="inputs">
+              <select id='WorkWeek'>
+            </select>
+            <label>Start of Work Week</label>
+            <i class="material-icons">
+                    arrow_drop_down
+                    </i>
+            </div>
+            <div class="inputs">
+              <select id='Off'>
+                
+            </select>
+            <label>Weekly Off (Multiselect Dropdown)</label>
+            <i class="material-icons">arrow_drop_down</i>
+        </div>
+        </div>
+        <div class="basic-config">
+            <h2>Leave types</h2>
+            <button type="submit" class="Leave-Type">Add Leave Types</button>
+            <button type="submit" class="Cancel" id="Table-Cancel">Cancel</button>
+        </div>
+        <div id="table-leave">
+        <table id="leavetable">
+                <thead>
+                  <tr>
+                    <th>Leave Code</th>
+                    <th>Leave Type</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>        
+                <tbody>                       
+                  <tr>
+                    <td><select class="tableoption">
+                      <option>SL</option>
+                      <option>EL</option>
+                    </select></td>
+                    <td><select class="tableoption">
+                        <option>Sick Leave</option>
+                        <option>Earned Leave</option></td>
+                    <td><select class="tableoption" id="drop-1">
+                      <option value='hide'>Choose Status</option>
+                      <option value='Active'>Active</option>
+                      <option value="In Active">In Active</option>
+                    </select>
+                  </td>
+                    <td class="icon"><i class="material-icons" id="edit" data-dropid="drop-1">edit</i><i class="material-icons" id="del">delete</i></td>
+                  </tr>          
+                 
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="4"><button type="submit" class="Add-Table">Add Row</button></th>
+                    
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            <div id="empty"></div>
+             <div class="basic-config">
+              <h2>Leave Policy</h2>
+              </div>
+              <div class="inputs">
+                  <input type="text" class="attach" value="Click to add attachments" disabled>
+                  <label class="Label">Attachments</label>
+                  <i class="material-icons"> attachment </i>
+              </div>
+              </div>
+    </div>
+</div>
+<script src="javascript/jquery-1.12.4.min.js"></script>
+<script src="javascript/jquery.tmpl.js"></script>
+
+</script>
+
+<script>
+    $(function(){
+       
+          $('.Edit').on('click',function(){
+            $('.text-field').show().css('display','flex');
+            $('#basic-config-cancel').addClass('cancel-active');
+            $('.Edit').hide();
+          });
+          $('#basic-config-cancel').on('click',event=>{
+            $(event.currentTarget).removeClass('cancel-active');
+            $('.Edit').show();
+            $('.text-field').css('display','none');
+            $('.save-button').removeClass('button-active');
+          });
+           $('.Leave-Type').on('click',function(){
+            $('#leavetable').show().css('display','inline-table');
+            $('.Add-Table').show().css('display','flex');
+            $('.Leave-Type').hide();
+            $('#Table-Cancel').addClass('cancel-active');
+           });
+
+           $('#Table-Cancel').click(event=>{
+            $('table').hide();
+            $('.Leave-Type').show();
+            $('.Add-Table').hide();
+            $(event.currentTarget).removeClass('cancel-active');
+           });
+      
+            $('table').on('click','#del,#del1',function(event){
+            $(this).parent().parent().remove();
+            });
+
+           $('.tableoption').prop('disabled',true);
+           $('#edit').click(function(){
+            $(this).parent().parent().find('.tableoption').prop('disabled',false);
+           });
+           $('.Add-Table').click(function() {
+            var td1 = "<td><select class='tableoption' id='opt1'><option>SL</option><option>EL</option></select ></td>";
+            var td2 = "<td><select class='tableoption'><option>Sick Leave</option><option>Earned Leave</option></select></td>";
+            var td3 = "<td><select class='tableoption'><option>Choose Status</option><option>Active</option><option>In Active</option></select></td>";
+            var td4 = "<td class='icon'><i class='material-icons' id='edit1'>edit</i><i class='material-icons' id='del1'>delete</i></td>";
+            var tablerow = "<tr>"+td1+""+td2+""+td3+""+td4+"</tr>"
+            $("table tbody").append(tablerow);
+           });
+           $('.inputs').click(()=>{
+            $('.save-button').addClass('button-active');
+           });  
+
+           var LeaveConfig = [
+               {Year:"1 Year",
+                Worker:"Worker #1",
+                Week:"Sunday",
+                WeeklyOff:"One"
+               },
+               {Year:"2 Years",
+                Worker:"Worker #2",
+                Week:"Monday",
+                WeeklyOff:"Two"},
+               {Year:"3 Years",
+                Worker:"Worker #3",
+                Week:"Tuesday",
+                WeeklyOff:"Three"},
+               {Year:"4 Years",
+                Worker:"Worker #4",
+                Week:"Wednesday",
+                WeeklyOff:"Four"},
+               {Year:"5 Years",
+                Worker:"Worker #5",
+                Week:"Thursday",
+                WeeklyOff:"Five"},
+               {Year:"6 Years",
+                Worker:"Worker #6",
+                Week:"Friday",
+                WeeklyOff:"Six"},
+               {Year:"7 Years",
+                Worker:"Worker #7",
+                Week:"Saturday",
+                WeeklyOff:"Seven"}
+               ];
+             var markYear="<option>${Year}</option>";
+             var markWorker="<option>${Worker}</option>";
+             var markWeek="<option>${Week}</option>";
+             var markWeeklyOff="<option>${WeeklyOff}</option>";
+
+             $.template("LeaveYr",markYear);
+             $.tmpl("LeaveYr",LeaveConfig).appendTo('#LeaveYearDuration');
+
+             $.template("ChooseWorker",markWorker);
+             $.tmpl("ChooseWorker",LeaveConfig).appendTo("#Notify-CoWorker");
+
+             $.template("ChooseWeek",markWeek);
+             $.tmpl("ChooseWeek",LeaveConfig).appendTo("#WorkWeek");
+              
+             $.template("ChooseWeeklyOff",markWeeklyOff);
+             $.tmpl("ChooseWeeklyOff",LeaveConfig).appendTo("#Off");
+            
+            var container = document.getElementById("LeaveYearDuration");
+            $('.Edit').click(()=>{
+             var ourRequest = new XMLHttpRequest();
+             ourRequest.open('GET','json-practice/leaves.json');
+             ourRequest.onload = function(){
+               var ourData = JSON.parse(ourRequest.responseText);
+               renderHTML(ourData);
+             };
+             ourRequest.send();
+            });
+
+            function renderHTML(data){
+              for (i=0; i<data.length;i++){
+              var optionstring = "<option>"+data[i].Year+"</option>";
+              container.insertAdjacentHTML('beforeend',optionstring);
+            }
+          }
+    });
+</script>
+</body>
+</html>
